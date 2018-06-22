@@ -1,4 +1,4 @@
-from textblob import TextBlob
+from textblob import TextBlob, Word
 
 text = TextBlob("""Tom Rhodes, a touring comedian for more than 30 years and
                 the host of the Tom Rhodes Radio podcast, joins Joey Diaz
@@ -9,7 +9,7 @@ text.tags
 
 # noun phrase extraction
 text.noun_phrases
-text.noun_phrases.count()
+# text.noun_phrases.count()
 
 # sentiment analysis
 text.sentiment
@@ -18,17 +18,12 @@ text.sentiment
 text.words
 text.sentences
 
-text.words.count()
-
 # word inflection and lemmatization
-text.words[1].singularize()
-text.words[1].pluralize()
-text.words[1].lemmatize()
-
-text.words.pluralize()
+text.words[4].singularize()
+text.words[4].pluralize()
+text.words[4].lemmatize()
 
 # wordnet
-from textblob.wordnet import VERB
 Word('hack').synsets
 Word('hack').definitions
 
@@ -39,8 +34,10 @@ Word('falibility').spellcheck() # returns (word, confidence)
 # translation
 text.detect_language()
 
+from textblob.exceptions import TranslatorError, NotTranslated
+
 try:
-  text.translate(to = 'es')
+  print(text.translate(to = 'es'))
 except TranslatorError as e:
   print(e)
 except NotTranslated as e:
