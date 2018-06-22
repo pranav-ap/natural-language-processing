@@ -1,6 +1,6 @@
 import nltk
 import random
-from nltk.corpus import movie_reviews
+from nltk.corpus import movie_reviews, stopwords
 
 documents = [(set(movie_reviews.words(fileid)), category)
              for category in movie_reviews.categories()
@@ -8,10 +8,13 @@ documents = [(set(movie_reviews.words(fileid)), category)
 
 random.shuffle(documents)
 
+stop_words = stopwords.words('english')
+
 all_words = []
 
 for w in movie_reviews.words():
-    all_words.append(w.lower())
+    if w not in stop_words:
+        all_words.append(w.lower())
 
 all_words = nltk.FreqDist(all_words)
 
@@ -37,5 +40,7 @@ test_set = featuresets[1900:]
 classifier = nltk.NaiveBayesClassifier.train(training_set)
 
 accuracy = nltk.classify.accuracy(classifier, test_set) * 100
+
+classifier.show_most_informative_features(15)
 
 
